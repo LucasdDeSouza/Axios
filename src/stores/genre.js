@@ -16,5 +16,24 @@ export const useGenreStore = defineStore('genre', () => {
     state.genres = response.data.genres;
   };
 
-  return { genres, getAllGenres, getGenreName };
+  return {
+    genres,
+    getAllGenres,
+    getGenreName,
+    currentGenreId,
+    setCurrentGenreId,
+  };
 });
+
+
+const state = reactive({
+    genres: [],
+    currentGenreId: null,
+  });
+
+
+const currentGenreId = computed(() => state.currentGenreId);
+
+const setCurrentGenreId = (genreId) => {
+  state.currentGenreId = genreId;
+};

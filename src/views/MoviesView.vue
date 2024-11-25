@@ -1,19 +1,26 @@
 <script setup>
   import { ref, onMounted } from 'vue';
   import api from '@/plugins/axios';
+  import { useGenreStore } from '@/stores/genre';
+  import { useRouter } from 'vue-router'
+const router = useRouter()
 
   import Loading from 'vue-loading-overlay';
 
   const isLoading = ref(false);
 
-  const genres = ref([]);
+
+  const genreStore = useGenreStore();
 
   const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 
-  function getGenreName(id) {
-    const genero = genres.value.find((genre) => genre.id === id);
-    return genero.name;
-  };
+
+
+  onMounted(async () => {
+  isLoading.value = true;
+  await genreStore.getAllGenres('movie');
+  isLoading.value = false;
+});
 
   onMounted(async () => {
   isLoading.value = true;
@@ -24,20 +31,21 @@
   const movies = ref([]);
 
   const listMovies = async (genreId) => {
+  genreStore.setCurrentGenreId(genreId);
   isLoading.value = true;
   const response = await api.get('discover/movie', {
     params: {
       with_genres: genreId,
-      language: 'pt-BR'
-    }
+      language: 'pt-BR',
+    },
   });
-  movies.value = response.data.results
+  movies.value = response.data.results;
   isLoading.value = false;
 };
 
-import { useGenreStore } from '@/stores/genre';
-
-const genreStore = useGenreStore();
+function openMovie(movieId) {
+  router.push({ name: 'MovieDetails', params: { movieId } });
+} 
 
 
 </script>
@@ -46,12 +54,15 @@ const genreStore = useGenreStore();
   <h1>Filmes</h1>
   <ul class="genre-list">
     <li
-    v-for="genre in genres"
+    v-for="genre in genreStore.genres"
     :key="genre.id"
     @click="listMovies(genre.id)"
     class="genre-item"
+    :class="{ active: genre.id === genreStore.currentGenreId }"
   >
+
     {{ genre.name }}
+
   </li>
   </ul>
 
@@ -59,22 +70,24 @@ const genreStore = useGenreStore();
 
   <div class="movie-list">
   <div v-for="movie in movies" :key="movie.id" class="movie-card">
-
     <img
-      :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
-      :alt="movie.title"
-    />
+  :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+  :alt="movie.title"
+  @click="openMovie(movie.id)"
+/>
     <div class="movie-details">
       <p class="movie-title">{{ movie.title }}</p>
       <p class="movie-release-date">{{ formatDate(movie.release_date) }}</p>
       <p class="movie-genres">
         <span
-          v-for="genre_id in movie.genre_ids"
-          :key="genre_id"
-          @click="listMovies(genre_id)"
-          >
-     {{ getGenreName(genre_id) }}
-        </span>
+  v-for="genre_id in movie.genre_ids"
+  :key="genre_id"
+  @click="listMovies(genre_id)"
+  :class="{ active: genre_id === genreStore.currentGenreId }"
+>
+   {{ genreStore.getGenreName(genre_id) }}
+</span>
+
       </p>
     </div>
 
@@ -159,5 +172,16 @@ const genreStore = useGenreStore();
   cursor: pointer;
   background-color: #455a08;
   box-shadow: 0 0 0.5rem #748708;
+}
+
+.active {
+  background-color: #67b086;
+  font-weight: bolder;
+}
+
+.movie-genres span.active {
+  background-color: #abc322;
+  color: #000;
+  font-weight: bolder;
 }
 </style>
