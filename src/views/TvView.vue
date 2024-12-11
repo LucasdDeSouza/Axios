@@ -43,8 +43,8 @@ const router = useRouter()
   isLoading.value = false;
 };
 
-function openMovie(tvId) {
-  router.push({ name: 'TvDetails', params: { tvId } });
+function openTv(programaId) {
+  router.push({ name: 'TvDetails', params: { programaId } });
 } 
 
 
@@ -69,24 +69,26 @@ function openMovie(tvId) {
   <loading v-model:active="isLoading" is-full-page />
 
   <div class="tv-list">
-  <div v-for="tv in tvs" :key="tv.id" class="tv-card">
+  <div v-for="programa in programas" :key="programa.id" class="tv-card">
     <img
-  :src="`https://image.tmdb.org/t/p/w500${tv.poster_path}`"
-  :alt="tv.title"
-  @click="openMovie(tv.id)"
+  :src="`https://image.tmdb.org/t/p/w500${programa.poster_path}`"
+  :alt="programa.name"
+  @click="openTv(programa.id)"
 />
     <div class="tv-details">
-      <p class="tv-title">{{ programa.title }}</p>
-      <p class="tv-release-date">{{ formatDate(tv.release_date) }}</p>
+      <p class="tv-name">{{ programa.name }}</p>
+      <p class="tv-original-name">{{ programa.original_name }}</p>
+      <p class="tv-release-date">{{ formatDate(programa.first_air_date) }}</p>
       <p class="tv-genres">
         <span
-  v-for="genre_id in tv.genre_ids"
+  v-for="genre_id in programa.genre_ids"
   :key="genre_id"
   @click="listTvs(genre_id)"
   :class="{ active: genre_id === genreStore.currentGenreId }"
 >
    {{ genreStore.getGenreName(genre_id) }}
 </span>
+
 
       </p>
     </div>
