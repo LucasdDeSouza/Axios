@@ -76,7 +76,7 @@ function openMovie(tvId) {
   @click="openMovie(tv.id)"
 />
     <div class="tv-details">
-      <p class="tv-title">{{ programa.title }}</p>
+      <p class="tv-title">{{ Programa.title }}</p>
       <p class="tv-release-date">{{ formatDate(tv.release_date) }}</p>
       <p class="tv-genres">
         <span
