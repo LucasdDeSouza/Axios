@@ -1,36 +1,36 @@
 <script setup>
-  import { ref, onMounted } from 'vue';
-  import api from '@/plugins/axios';
-  import { useGenreStore } from '@/stores/genre';
-  import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue';
+import api from '@/plugins/axios';
+import { useGenreStore } from '@/stores/genre';
+import { useRouter } from 'vue-router'
 const router = useRouter()
 
-  import Loading from 'vue-loading-overlay';
+import Loading from 'vue-loading-overlay';
 
-  const isLoading = ref(false);
-
-
-  const genreStore = useGenreStore();
-
-  const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
+const isLoading = ref(false);
 
 
+const genreStore = useGenreStore();
 
-  onMounted(async () => {
+const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
+
+
+
+onMounted(async () => {
   isLoading.value = true;
   await genreStore.getAllGenres('movie');
   isLoading.value = false;
 });
 
-  onMounted(async () => {
+onMounted(async () => {
   isLoading.value = true;
   await genreStore.getAllGenres('movie');
   isLoading.value = false;
 });
 
-  const movies = ref([]);
+const movies = ref([]);
 
-  const listMovies = async (genreId) => {
+const listMovies = async (genreId) => {
   genreStore.setCurrentGenreId(genreId);
   isLoading.value = true;
   const response = await api.get('discover/movie', {
@@ -45,7 +45,7 @@ const router = useRouter()
 
 function openMovie(movieId) {
   router.push({ name: 'MovieDetails', params: { movieId } });
-} 
+}
 
 
 </script>
@@ -53,56 +53,58 @@ function openMovie(movieId) {
 <template>
   <h1>Filmes</h1>
   <ul class="genre-list">
-    <li
-    v-for="genre in genreStore.genres"
-    :key="genre.id"
-    @click="listMovies(genre.id)"
-    class="genre-item"
-    :class="{ active: genre.id === genreStore.currentGenreId }"
-  >
+    <li v-for="genre in genreStore.genres" :key="genre.id" @click="listMovies(genre.id)" class="genre-item"
+      :class="{ active: genre.id === genreStore.currentGenreId }">
 
-    {{ genre.name }}
+      {{ genre.name }}
 
-  </li>
+    </li>
   </ul>
 
   <loading v-model:active="isLoading" is-full-page />
 
   <div class="movie-list">
-  <div v-for="movie in movies" :key="movie.id" class="movie-card">
-    <img
-  :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
-  :alt="movie.title"
-  @click="openMovie(movie.id)"
-/>
-    <div class="movie-details">
-      <p class="movie-title">{{ movie.title }}</p>
-      <p class="movie-release-date">{{ formatDate(movie.release_date) }}</p>
-      <p class="movie-genres">
-        <span
-  v-for="genre_id in movie.genre_ids"
-  :key="genre_id"
-  @click="listMovies(genre_id)"
-  :class="{ active: genre_id === genreStore.currentGenreId }"
->
-   {{ genreStore.getGenreName(genre_id) }}
-</span>
+    <div v-for="movie in movies" :key="movie.id" class="movie-card">
+      <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title"
+        @click="openMovie(movie.id)" />
+      <div class="movie-details">
+        <p class="movie-title">{{ movie.title }}</p>
+        <p class="movie-release-date">{{ formatDate(movie.release_date) }}</p>
+        <p class="movie-genres">
+          <span v-for="genre_id in movie.genre_ids" :key="genre_id" @click="listMovies(genre_id)"
+            :class="{ active: genre_id === genreStore.currentGenreId }">
+            {{ genreStore.getGenreName(genre_id) }}
+          </span>
 
-      </p>
+        </p>
+      </div>
+
     </div>
-
   </div>
-</div>
 
 
 </template>
 <style scoped>
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin: 2rem 0;
+  color: #333;
+}
+
 .genre-list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
   list-style: none;
+  padding: 0;
   margin-bottom: 2rem;
 }
 
@@ -111,77 +113,83 @@ function openMovie(movieId) {
   border-radius: 1rem;
   padding: 0.5rem 1rem;
   color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .genre-item:hover {
-  cursor: pointer;
-  background-color: #4e9e5f;
-  box-shadow: 0 0 0.5rem #387250;
+  background-color: #285a3a;
+  transform: scale(1.05);
 }
+
+.genre-item.active {
+  background-color: #285a3a;
+  font-weight: bold;
+}
+
 .movie-list {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  justify-content: center;
 }
 
 .movie-card {
-  width: 15rem;
-  height: 30rem;
+  width: 100%;
+  max-width: 200px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  background-color: #fff;
   border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  box-shadow: 0 0 0.5rem #000;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
 }
 
 .movie-card img {
   width: 100%;
-  height: 20rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 0.5rem #000;
+  height: auto;
 }
 
 .movie-details {
-  padding: 0 0.5rem;
+  padding: 0.5rem;
+  text-align: center;
 }
 
 .movie-title {
-  font-size: 1.1rem;
   font-weight: bold;
-  line-height: 1.3rem;
-  height: 3.2rem;
+  font-size: 1.1rem;
+  color: #333;
 }
 
+.movie-release-date,
 .movie-genres {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 0.2rem;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 .movie-genres span {
-  background-color: #748708;
-  border-radius: 0.5rem;
-  padding: 0.2rem 0.5rem;
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.movie-genres span:hover {
   cursor: pointer;
-  background-color: #455a08;
-  box-shadow: 0 0 0.5rem #748708;
-}
-
-.active {
-  background-color: #67b086;
-  font-weight: bolder;
+  margin-right: 0.5rem;
 }
 
 .movie-genres span.active {
-  background-color: #abc322;
+  font-weight: bold;
   color: #000;
-  font-weight: bolder;
+}
+
+@media (min-width: 600px) {
+  .movie-card {
+    max-width: 150px;
+  }
+}
+
+@media (min-width: 900px) {
+  .movie-card {
+    max-width: 200px;
+  }
 }
 </style>
