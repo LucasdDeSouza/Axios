@@ -24,7 +24,7 @@ onMounted(async () => {
           :alt="movieStore.currentMovie.title"
           class="poster-image"
         />
-  
+
         <div class="details">
           <h1 class="movie-title">{{ movieStore.currentMovie.title }}</h1>
           <p class="tagline">{{ movieStore.currentMovie.tagline }}</p>
@@ -33,7 +33,7 @@ onMounted(async () => {
           <p class="rating">Avaliação: {{ movieStore.currentMovie.vote_average }}</p>
         </div>
       </div>
-  
+
       <div class="production-companies">
         <p class="companies-title">Produtoras</p>
         <div class="companies-list">
@@ -52,77 +52,90 @@ onMounted(async () => {
       </div>
     </div>
   </template>
-  
 
   <style scoped>
-  .companies {
-    display: flex;
-    flex-direction: row;
-    column-gap: 3rem;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap; 
+  .movie-details {
+    text-align: center;
+    padding: 20px;
   }
-  
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .poster-image {
+    width: 185px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-right: 20px;
+  }
+
+  .details {
+    max-width: 600px;
+  }
+
+  .movie-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ff4500;
+  }
+
+  .tagline {
+    font-style: italic;
+    color: #777;
+    margin-bottom: 10px;
+  }
+
+  .overview {
+    margin-bottom: 10px;
+  }
+
+  .budget {
+    margin-bottom: 10px;
+  }
+
+  .rating {
+    font-weight: bold;
+    color: #008080;
+  }
+
+  .production-companies {
+    margin-top: 20px;
+  }
+
+  .companies-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ff4500;
+  }
+
+  .companies-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
   .company {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
   }
-  
+
   .company-logo {
     width: 92px;
     height: auto;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    margin-right: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   }
-  
-  .company-logo:hover {
-    transform: scale(1.1);
-  }
-  
+
   .company-name {
-    font-size: 1rem;
-    font-weight: bold;
+    margin-bottom: 10px;
     color: #333;
-    text-align: center;
-    margin-top: 0.5rem;
   }
+  </style>
   
-  @media (max-width: 768px) {
-    .companies {
-      column-gap: 1rem;
-    }
-  
-    .company-logo {
-      width: 72px;
-    }
-  
-    .company-name {
-      font-size: 0.9rem;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .companies {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .company {
-      width: 100%;
-      align-items: flex-start;
-    }
-  
-    .company-logo {
-      width: 100%;
-      max-width: 92px;
-    }
-  
-    .company-name {
-      font-size: 0.8rem;
-      text-align: left;
-    }
-  }

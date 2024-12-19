@@ -9,7 +9,7 @@ const router = useRouter()
 const isLoading = ref(false);
 const tvs = ref([]);
 
-const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR')
+const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 
 const listTvs = async (genreId) => {
   genreStore.setCurrentGenreId(genreId);
@@ -26,13 +26,13 @@ const listTvs = async (genreId) => {
 
 function openTv(tvId) {
   router.push({ name: 'TvDetails', params: { tvId } });
-}
+};
 
 onMounted(async () => {
   isLoading.value = true;
   await genreStore.getAllGenres('tv');
   isLoading.value = false;
-})
+});
 </script>
 
 <template>
@@ -84,7 +84,7 @@ onMounted(async () => {
   padding: 20px;
   background-color: #101010;
   color: #fff;
-  
+
 }
 .hero-title {
   font-size: 3rem;

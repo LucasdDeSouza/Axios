@@ -56,7 +56,7 @@ const listMovies = async (genreId) => {
   :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
   :alt="movie.title"
   @click="openMovie(movie.id)"
-/>   
+/>
         <div class="movie-details">
           <p class="movie-title">{{ movie.title }}</p>
           <p class="movie-release-date">{{ formatDate(movie.release_date) }}</p>
@@ -82,7 +82,7 @@ const listMovies = async (genreId) => {
   padding: 20px;
   background-color: #101010;
   color: #fff;
-  
+
 }
 
 .hero-title {
@@ -156,7 +156,7 @@ const listMovies = async (genreId) => {
 .movie-release-date {
 
   font-size: 1rem;
- 
+
 }
 
 .movie-release-date:hover {
