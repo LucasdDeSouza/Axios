@@ -64,6 +64,7 @@ onMounted(async () => {
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    text-align: left;
   }
 
   .poster-image {
