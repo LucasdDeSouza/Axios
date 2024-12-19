@@ -137,5 +137,38 @@ onMounted(async () => {
     margin-bottom: 10px;
     color: #333;
   }
+  @media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .poster-image {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .details {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  .companies-list {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-title {
+    font-size: 1.5rem;
+  }
+
+  .companies-title {
+    font-size: 1.2rem;
+  }
+
+  .company-logo {
+    width: 72px;
+  }
+}
   </style>
-  

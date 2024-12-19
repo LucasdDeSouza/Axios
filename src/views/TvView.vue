@@ -26,7 +26,7 @@ const listTvs = async (genreId) => {
 
 function openTv(tvId) {
   router.push({ name: 'TvDetails', params: { tvId } });
-};
+}
 
 onMounted(async () => {
   isLoading.value = true;
@@ -173,7 +173,7 @@ color: var(--primary-color);
 }
 
 .Tv-genres span {
-  background-color: #748708;
+  background-color: #086387;
   border-radius: 0.5rem;
   padding: 0.2rem 0.5rem;
   color: #fff;
@@ -193,8 +193,7 @@ color: var(--primary-color);
 }
 
 .Tv-genres span.active {
-  background-color: #abc322;
-  color: #000;
+  background-color: #086387;
   font-weight: bolder;
 }
 </style>
