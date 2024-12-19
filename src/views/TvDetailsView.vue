@@ -54,86 +54,76 @@ onMounted(async () => {
   </template>
   
   <style scoped>
-  .tv-details {
-    text-align: center;
-    padding: 20px;
-    background-color: #3d3d3d;
-    color: #fff;
+.companies {
+  display: flex;
+  flex-direction: row;
+  column-gap: 3rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;  
+}
+
+.company {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.company-logo {
+  width: 92px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.company-logo:hover {
+  transform: scale(1.1);
+}
+
+.company-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .companies {
+    column-gap: 1rem;
   }
-  
-  .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .poster-image {
-    width: 185px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(175, 175, 175, 0.2);
-    margin-right: 20px;
-  }
-  
-  .details {
-    max-width: 600px;
-  }
-  
-  .tv-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #ffd700; 
-  }
-  
-  .tagline {
-    font-style: italic;
-    color: #777;
-    margin-bottom: 10px;
-  }
-  
-  .overview {
-    margin-bottom: 10px;
-  }
-  
-  .rating {
-    font-weight: bold;
-    color: #00ff00; 
-  }
-  
-  .production-companies {
-    margin-top: 20px;
-  }
-  
-  .companies-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #ffd700; 
-  }
-  
-  .companies-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .company {
-    margin-bottom: 10px;
-  }
-  
+
   .company-logo {
-    width: 92px;
-    height: auto;
-    margin-right: 10px;
-    border-radius: 4px;
-    box-shadow: 0 0 5px rgb(214, 214, 214);
+    width: 72px;
   }
-  
+
   .company-name {
-    margin-bottom: 10px;
-    color: #fff; 
+    font-size: 0.9rem;
   }
+}
+
+@media (max-width: 480px) {
+  .companies {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .company {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .company-logo {
+    width: 100%;
+    max-width: 92px;
+  }
+
+  .company-name {
+    font-size: 0.8rem;
+    text-align: left;
+  }
+}
   </style>
   

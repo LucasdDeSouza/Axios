@@ -54,12 +54,75 @@ onMounted(async () => {
   </template>
   
 
-<style scoped>
-.companies {
-  display: flex;
-  flex-direction: row;
-  column-gap: 3rem;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-</style>
+  <style scoped>
+  .companies {
+    display: flex;
+    flex-direction: row;
+    column-gap: 3rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap; 
+  }
+  
+  .company {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .company-logo {
+    width: 92px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .company-logo:hover {
+    transform: scale(1.1);
+  }
+  
+  .company-name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .companies {
+      column-gap: 1rem;
+    }
+  
+    .company-logo {
+      width: 72px;
+    }
+  
+    .company-name {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .companies {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .company {
+      width: 100%;
+      align-items: flex-start;
+    }
+  
+    .company-logo {
+      width: 100%;
+      max-width: 92px;
+    }
+  
+    .company-name {
+      font-size: 0.8rem;
+      text-align: left;
+    }
+  }
