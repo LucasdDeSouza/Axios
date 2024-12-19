@@ -3,12 +3,13 @@
 <template>
   <header>
     <nav>
-      <router-link to="/">Home</router-link>
+      <router-link to="/home">Home</router-link>
       <router-link to="/filmes">Filmes</router-link>
       <router-link to="/tv">Programas de TV</router-link>
     </nav>
   </header>
   <main>
+    <carousel />
     <router-view />
   </main>
 </template>
