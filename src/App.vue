@@ -3,12 +3,13 @@
 <template>
   <header>
     <nav>
-      <router-link to="/">Home</router-link>
+      <router-link to="/home">Inicio</router-link>
       <router-link to="/filmes">Filmes</router-link>
       <router-link to="/tv">Programas de TV</router-link>
     </nav>
   </header>
   <main>
+    <carousel />
     <router-view />
   </main>
 </template>
@@ -21,6 +22,7 @@ header {
   color: #fff;
   font-size: 1.2rem;
   padding-left: 2rem;
+  text-align : center;
 }
 
 nav {
@@ -28,10 +30,12 @@ nav {
   margin-bottom: 0;
   display: flex;
   align-items: center;
+  display: center;
 }
 
 nav a {
   text-decoration: none;
   color: #fff;
+  text-align : left;
 }
 </style>

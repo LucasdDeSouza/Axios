@@ -1,107 +1,101 @@
 <script setup>
-  import { ref, onMounted } from 'vue';
-  import api from '@/plugins/axios';
-  import { useGenreStore } from '@/stores/genre';
-  import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import api from '@/plugins/axios'
+import Loading from 'vue-loading-overlay'
+import genreStore from '@/stores/genre'
+import { useRouter } from 'vue-router'
+
 const router = useRouter()
+const isLoading = ref(false);
+const tvs = ref([]);
 
-  import Loading from 'vue-loading-overlay';
+const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 
-  const isLoading = ref(false);
-
-
-  const genreStore = useGenreStore();
-
-  const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
-
-
-
-  onMounted(async () => {
-  isLoading.value = true;
-  await genreStore.getAllGenres('tv');
-  isLoading.value = false;
-});
-
-  onMounted(async () => {
-  isLoading.value = true;
-  await genreStore.getAllGenres('tv');
-  isLoading.value = false;
-});
-
-  const programas = ref([]);
-
-  const listTvs = async (genreId) => {
+const listTvs = async (genreId) => {
   genreStore.setCurrentGenreId(genreId);
   isLoading.value = true;
   const response = await api.get('discover/tv', {
     params: {
       with_genres: genreId,
-      language: 'pt-BR',
-    },
+      language: 'pt-BR'
+    }
   });
-  programas.value = response.data.results;
+  tvs.value = response.data.results
   isLoading.value = false;
 };
 
-function openMovie(tvId) {
+function openTv(tvId) {
   router.push({ name: 'TvDetails', params: { tvId } });
-} 
+}
 
-
+onMounted(async () => {
+  isLoading.value = true;
+  await genreStore.getAllGenres('tv');
+  isLoading.value = false;
+});
 </script>
 
 <template>
-  <h1>Programas de Tv</h1>
+  <div class="tv-container">
+    <h1 class="hero-title">Programas de TV</h1>
   <ul class="genre-list">
     <li
-    v-for="genre in genreStore.genres"
-    :key="genre.id"
-    @click="listTvs(genre.id)"
-    class="genre-item"
-    :class="{ active: genre.id === genreStore.currentGenreId }"
-  >
-
-    {{ genre.name }}
-
-  </li>
+      v-for="genre in genreStore.genres"
+      :key="genre.id"
+      @click="listTvs(genre.id)"
+      class="genre-item"
+      :class="{ active: genre.id === genreStore.currentGenreId }"
+    >
+      {{ genre.name }}
+    </li>
   </ul>
 
   <loading v-model:active="isLoading" is-full-page />
 
-  <div class="tv-list">
-  <div v-for="tv in tvs" :key="tv.id" class="tv-card">
-    <img
-  :src="`https://image.tmdb.org/t/p/w500${tv.poster_path}`"
-  :alt="tv.title"
-  @click="openMovie(tv.id)"
-/>
-    <div class="tv-details">
-      <p class="tv-title">{{ programa.title }}</p>
-      <p class="tv-release-date">{{ formatDate(tv.release_date) }}</p>
-      <p class="tv-genres">
-        <span
-  v-for="genre_id in tv.genre_ids"
-  :key="genre_id"
-  @click="listTvs(genre_id)"
-  :class="{ active: genre_id === genreStore.currentGenreId }"
->
-   {{ genreStore.getGenreName(genre_id) }}
-</span>
-
-      </p>
+  <div class="Tv-list">
+    <div v-for="Tv in tvs" :key="Tv.id" class="Tv-card">
+      <img
+        :src="`https://image.tmdb.org/t/p/w500${Tv.poster_path}`"
+        :alt="Tv.name"
+        @click="openTv(Tv.id)"
+      />
+      <div class="Tv-details">
+        <p class="Tv-title">{{ Tv.name }}</p>
+        <p class="Tv-first-air-date">{{ formatDate(Tv.first_air_date) }}</p>
+        <p class="Tv-genres">
+          <span
+            v-for="genre_id in Tv.genre_ids"
+            :key="genre_id"
+            @click="listTvs(genre_id)"
+            :class="{ active: genre_id === genreStore.currentGenreId }"
+          >
+            {{ genreStore.getGenreName(genre_id) }}
+          </span>
+        </p>
+      </div>
     </div>
-
   </div>
 </div>
-
-
 </template>
+
 <style scoped>
+.tv-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #101010;
+  color: #fff;
+
+}
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 .genre-list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
   list-style: none;
   margin-bottom: 2rem;
 }
@@ -110,7 +104,10 @@ function openMovie(tvId) {
   background-color: #387250;
   border-radius: 1rem;
   padding: 0.5rem 1rem;
+  align-self: center;
   color: #fff;
+  display: flex;
+  justify-content: center;
 }
 
 .genre-item:hover {
@@ -118,49 +115,65 @@ function openMovie(tvId) {
   background-color: #4e9e5f;
   box-shadow: 0 0 0.5rem #387250;
 }
-.tv-list {
+
+.Tv-list {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  justify-content: center;
 }
 
-.tv-card {
+.Tv-card {
   width: 15rem;
   height: 30rem;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 0 0.5rem #000;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out;
+  background-color: #202020;
 }
 
-.tv-card img {
+.Tv-card:hover {
+  transform: scale(1.05);
+}
+.Tv-card img {
   width: 100%;
   height: 20rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 0.5rem #000;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
 }
 
-.tv-detai {
-  padding: 0 0.5rem;
+.Tv-details {
+  padding: 1rem;
 }
 
-.movie-title {
-  font-size: 1.1rem;
+.Tv-title {
+  font-size: 0.9rem;
   font-weight: bold;
-  line-height: 1.3rem;
-  height: 3.2rem;
+  line-height: 1.5;
+  height: 3.5rem;
+  margin-bottom: 0.5rem;
+}
+.Tv-first-air-date{
+
+font-size: 1rem;
+
 }
 
-.movie-genres {
+.Tv-first-air-date:hover {
+color: var(--primary-color);
+}
+.Tv-genres {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
   justify-content: center;
-  gap: 0.2rem;
 }
 
-.movie-genres span {
-  background-color: #748708;
+.Tv-genres span {
+  background-color: #086387;
   border-radius: 0.5rem;
   padding: 0.2rem 0.5rem;
   color: #fff;
@@ -168,7 +181,7 @@ function openMovie(tvId) {
   font-weight: bold;
 }
 
-.movie-genres span:hover {
+.Tv-genres span:hover {
   cursor: pointer;
   background-color: #455a08;
   box-shadow: 0 0 0.5rem #748708;
@@ -179,9 +192,8 @@ function openMovie(tvId) {
   font-weight: bolder;
 }
 
-.movie-genres span.active {
-  background-color: #abc322;
-  color: #000;
+.Tv-genres span.active {
+  background-color: #086387;
   font-weight: bolder;
 }
 </style>
