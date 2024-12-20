@@ -3,7 +3,7 @@
 <template>
   <header>
     <nav>
-      <router-link to="/home">Home</router-link>
+      <router-link to="/home">Inicio</router-link>
       <router-link to="/filmes">Filmes</router-link>
       <router-link to="/tv">Programas de TV</router-link>
     </nav>
