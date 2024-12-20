@@ -30,6 +30,7 @@ onMounted(async () => {
           <h1 class="tv-title">{{ tvStore.currentTv.name }}</h1>
           <p class="tagline">{{ tvStore.currentTv.tagline }}</p>
           <p class="overview">{{ tvStore.currentTv.overview }}</p>
+          <p class="budget">Orçamento: ${{ tvStore.currentTv.budget }}</p>
           <p class="rating">Avaliação: {{ tvStore.currentTv.vote_average }}</p>
         </div>
       </div>
@@ -54,9 +55,11 @@ onMounted(async () => {
   </template>
 
   <style scoped>
-   .movie-details {
+  .tv-details {
     text-align: center;
     padding: 20px;
+    background-color: #202020;
+    border-radius : 10px;
   }
 
   .content {
@@ -106,7 +109,9 @@ onMounted(async () => {
 
   .production-companies {
     margin-top: 20px;
-  }
+    background-color: white;
+    text-align: center;
+   }
 
   .companies-title {
     font-size: 1.5rem;

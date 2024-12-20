@@ -57,6 +57,8 @@ onMounted(async () => {
   .movie-details {
     text-align: center;
     padding: 20px;
+    background-color: #202020;
+    border-radius : 10px;
   }
 
   .content {
@@ -107,7 +109,9 @@ onMounted(async () => {
 
   .production-companies {
     margin-top: 20px;
-  }
+    background-color: white;
+    text-align: center;
+   }
 
   .companies-title {
     font-size: 1.5rem;
